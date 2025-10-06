@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bizim Yıldızımız</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #0a0a23, #1a1a2e);
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+}
+
+/* --- Yıldız --- */
+.star {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255, 225, 235, 1) 0%,
+        rgba(255, 182, 193, 0.9) 25%,
+        rgba(255, 153, 204, 0.6) 50%,
+        rgba(180, 100, 255, 0.2) 75%,
+        transparent 100%);
+    box-shadow:
+        0 0 60px 25px rgba(255, 160, 200, 0.8),
+        0 0 120px 40px rgba(180, 100, 255, 0.6),
+        inset 0 0 60px rgba(255, 230, 240, 0.8);
+    animation: pulse 3s infinite ease-in-out;
+    transition: transform 0.3s;
+}
+.star:hover {
+    transform: scale(1.15);
+}
+
+/* --- Aura (mor ışık halkası) --- */
+.star::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(180,100,255,0.5) 20%, transparent 70%);
+    filter: blur(35px);
+    animation: aura 4s infinite ease-in-out;
+    z-index: -1;
+}
+
+/* --- Enerji patlaması efekti --- */
+.star::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+    opacity: 0;
+    animation: burst 5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 60px 25px rgba(255, 160, 200, 0.8),
+            0 0 120px 40px rgba(180, 100, 255, 0.5),
+            inset 0 0 60px rgba(255, 230, 240, 0.8);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow:
+            0 0 80px 40px rgba(255, 180, 220, 1),
+            0 0 160px 60px rgba(190, 120, 255, 0.7),
+            inset 0 0 80px rgba(255, 255, 255, 1);
+    }
+}
+
+@keyframes aura {
+    0%,100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes burst {
+    0% { opacity: 0; transform: scale(1); }
+    45% { opacity: 0.6; transform: scale(1.4); }
+    100% { opacity: 0; transform: scale(1); }
+}
+
+/* --- Yazılar --- */
+h1 {
+    font-size: 3.5em;
+    color: #ffb6c1;
+    text-shadow: 0 0 20px #ffb6c1, 0 0 50px #b48cff;
+    margin-top: 30px;
+    animation: fadeIn 3s ease-in;
+}
+p {
+    font-size: 1.8em;
+    color: #ffccd5;
+    text-shadow: 0 0 15px #ffb6c1;
+    margin: 10px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Arka plan yıldızları --- */
+.twinkle {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+}
+@keyframes twinkle {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+</style>
+</head>
+<body>
+    <div class="star" id="star"></div>
+    <h1>Bizim Yıldızımız</h1>
+    <p>Bunu sana armağan ediyorum güzelim</p>
+
+<script>
+function createTwinkle() {
+    const s = document.createElement('div');
+    s.className = 'twinkle';
+    s.style.width = `${Math.random() * 3 + 2}px`;
+    s.style.height = s.style.width;
+    s.style.left = `${Math.random() * 100}vw`;
+    s.style.top = `${Math.random() * 100}vh`;
+    s.style.animationDelay = `${Math.random() * 2}s`;
+    document.body.appendChild(s);
+}
+for (let i = 0; i < 60; i++) createTwinkle();
+
+// yıldız tıklanınca küçük parıltı animasyonu
+const star = document.getElementById('star');
+star.addEventListener('click', () => {
+    star.style.transform = 'scale(1.25)';
+    setTimeout(() => star.style.transform = 'scale(1)', 300);
+});
+</script>
+</body>
+</html>
